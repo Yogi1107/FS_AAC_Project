@@ -2,8 +2,6 @@
 
 A beautiful, interactive web-based visualizer for Minimum Spanning Tree (MST) algorithms. This tool demonstrates both Kruskal's and Prim's algorithms with step-by-step visualization and detailed execution tracking.
 
-![MST Visualizer](https://img.shields.io/badge/version-1.0.0-blue) ![License](https://img.shields.io/badge/license-MIT-green)
-
 ## Features
 
 - **Dual Algorithm Support**: Visualize both Kruskal's and Prim's MST algorithms
@@ -238,4 +236,4 @@ Created as an educational tool for understanding Minimum Spanning Tree algorithm
 
 ---
 
-**Enjoy visualizing MST algorithms! 🌳✨**
+**Enjoy visualizing MST algorithms! **
