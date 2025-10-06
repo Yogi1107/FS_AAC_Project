@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MST Visualizer (Kruskal & Prim)</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Graph Half -->
+    <div id="graphArea">
+      <h2>Graph Representation</h2>
+      <svg id="graph" width="500" height="500"></svg>
+    </div>
+
+    <!-- Info Half -->
+    <div id="infoArea">
+      <h2>Algorithm Info</h2>
+
+      <div class="control-group">
+        <label for="algo">Choose Algorithm:</label>
+        <select id="algo" onchange="toggleSourceInput()">
+          <option value="kruskal">Kruskal</option>
+          <option value="prim">Prim</option>
+        </select>
+
+        <!-- Source vertex input (shown only for Prim) -->
+        <div id="sourceInputDiv" style="display: none">
+          <label for="sourceVertex">Source Vertex:</label>
+          <input type="text" id="sourceVertex" placeholder="e.g. A" />
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button onclick="generateRandomGraph()">Generate Random Graph</button>
+        <div class="input-group">
+          <label>Nodes:</label>
+          <input type="number" id="nodeCount" value="6" min="3" max="10" />
+        </div>
+        <div class="input-group">
+          <label>Density:</label>
+          <select id="density">
+            <option value="sparse">Sparse</option>
+            <option value="medium" selected>Medium</option>
+            <option value="dense">Dense</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button onclick="loadUserGraph()">Load Custom Graph</button>
+        <button onclick="runAlgorithm()">Run Algorithm</button>
+        <button onclick="pauseResume()">Pause/Resume</button>
+        <button onclick="resetGraph()">Reset</button>
+      </div>
+
+      <h3>Custom Graph Input</h3>
+      <textarea
+        id="graphInput"
+        placeholder="Enter edges like: A-B:4&#10;A-C:2&#10;B-C:5"
+      ></textarea>
+
+      <h3>Steps:</h3>
+      <div id="steps"></div>
+
+      <h3>Final Result:</h3>
+      <p id="result"></p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
