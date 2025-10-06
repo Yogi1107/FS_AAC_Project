@@ -236,4 +236,4 @@ Created as an educational tool for understanding Minimum Spanning Tree algorithm
 
 ---
 
-**Enjoy visualizing MST algorithms! **
+**Enjoy visualizing MST algorithms!**
