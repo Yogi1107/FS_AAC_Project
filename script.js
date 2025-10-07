@@ -239,7 +239,7 @@ function runKruskal() {
     if (paused) return;
     if (i >= sorted.length) {
       let endTime = performance.now();
-      resultDiv.innerText = `MST Complete (Kruskal)\nFinal Cost: ${mstCost}\nTotal Time: ${(
+      resultDiv.innerText = ` ✅MST Complete (Kruskal)\nFinal Cost: ${mstCost}\nTotal Time: ${(
         endTime - startTime
       ).toFixed(2)} ms`;
       running = false;
@@ -337,3 +337,4 @@ function runPrim() {
   };
   stepFunc();
 }
+
