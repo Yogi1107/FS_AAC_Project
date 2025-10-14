@@ -16,6 +16,7 @@
     <div id="infoArea">
       <h2>Algorithm Info</h2>
 
+      <h3>Choose the Algorithm</h3>
       <div class="control-group">
         <label for="algo">Choose Algorithm:</label>
         <select id="algo" onchange="toggleSourceInput()">
@@ -30,6 +31,7 @@
         </div>
       </div>
 
+      <h3>Generate A Random Graph</h3>
       <div class="button-container">
         <button onclick="generateRandomGraph()">Generate Random Graph</button>
         <div class="input-group">
@@ -46,18 +48,20 @@
         </div>
       </div>
 
+      <!-- <h3>Custom Graph Input</h3>
+      <textarea
+        id="graphInput"
+        placeholder="Enter edges like: A-B:4&#10;A-C:2&#10;B-C:5"
+      ></textarea> -->
+
+      <h3>Graph Controls</h3>
       <div class="button-container">
-        <button onclick="loadUserGraph()">Load Custom Graph</button>
+        <button onclick="createInteractiveGraph()">Connect Nodes</button>
+        <!-- <button onclick="loadUserGraph()">Load Custom Graph</button> -->
         <button onclick="runAlgorithm()">Run Algorithm</button>
         <button onclick="pauseResume()">Pause/Resume</button>
         <button onclick="resetGraph()">Reset</button>
       </div>
-
-      <h3>Custom Graph Input</h3>
-      <textarea
-        id="graphInput"
-        placeholder="Enter edges like: A-B:4&#10;A-C:2&#10;B-C:5"
-      ></textarea>
 
       <h3>Steps:</h3>
       <div id="steps"></div>
