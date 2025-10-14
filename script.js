@@ -9,6 +9,11 @@ let paused = false;
 let stepFunc;
 let timer;
 
+// Drag and drop variables
+let isInteractiveMode = false;
+let dragStartNode = null;
+let tempLine = null;
+
 function resetGraph() {
   svg.innerHTML = "";
   nodes = [];
@@ -17,6 +22,9 @@ function resetGraph() {
   resultDiv.innerText = "";
   running = false;
   paused = false;
+  isInteractiveMode = false;
+  dragStartNode = null;
+  tempLine = null;
   clearTimeout(timer);
 }
 
@@ -26,7 +34,7 @@ function toggleSourceInput() {
     algo === "prim" ? "block" : "none";
 }
 
-function drawNode(id, x, y) {
+function drawNode(id, x, y, interactive = false) {
   let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
   circle.setAttribute("cx", x);
   circle.setAttribute("cy", y);
@@ -35,6 +43,9 @@ function drawNode(id, x, y) {
   circle.setAttribute("stroke", "white");
   circle.setAttribute("stroke-width", "3");
   circle.setAttribute("class", "node");
+  if (interactive) {
+    circle.style.cursor = "pointer";
+  }
 
   let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
   text.setAttribute("x", x);
@@ -45,6 +56,20 @@ function drawNode(id, x, y) {
   text.setAttribute("font-size", "14");
   text.setAttribute("class", "node");
   text.textContent = id;
+  if (interactive) {
+    text.style.cursor = "pointer";
+    text.style.pointerEvents = "none"; // Let clicks pass through to circle
+  }
+
+  // Add drag event listeners if in interactive mode
+  if (interactive) {
+    circle.addEventListener("mousedown", (e) =>
+      handleNodeMouseDown(e, { id, x, y, circle, text })
+    );
+    circle.addEventListener("mouseup", (e) =>
+      handleNodeMouseUp(e, { id, x, y, circle, text })
+    );
+  }
 
   nodes.push({ id, x, y, circle, text });
 }
@@ -82,7 +107,127 @@ function drawEdge(u, v, w) {
   label.textContent = w;
   svg.appendChild(label);
 
-  edges.push({ u, v, w, line });
+  edges.push({ u, v, w, line, bgRect, label });
+}
+
+// New function: Create interactive graph
+function createInteractiveGraph() {
+  resetGraph();
+  isInteractiveMode = true;
+
+  const nodeCount = parseInt(document.getElementById("nodeCount").value);
+  let radius = 180;
+  let centerX = 250;
+  let centerY = 250;
+
+  // Create nodes in a circle
+  for (let i = 0; i < nodeCount; i++) {
+    let angle = (2 * Math.PI * i) / nodeCount;
+    let x = centerX + radius * Math.cos(angle);
+    let y = centerY + radius * Math.sin(angle);
+    let label = String.fromCharCode(65 + i);
+    drawNode(label, x, y, true);
+  }
+
+  // Append all nodes to SVG
+  nodes.forEach((node) => {
+    svg.appendChild(node.circle);
+    svg.appendChild(node.text);
+  });
+
+  // Add mouse move listener to SVG
+  svg.addEventListener("mousemove", handleSvgMouseMove);
+  svg.addEventListener("mouseleave", handleSvgMouseLeave);
+
+  stepsDiv.innerText =
+    "Interactive Mode Active!\nDrag from one node to another to create edges.\n\n";
+}
+
+// Handle mouse down on node
+function handleNodeMouseDown(e, node) {
+  if (!isInteractiveMode) return;
+  e.preventDefault();
+  dragStartNode = node;
+
+  // Create temporary line
+  tempLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  tempLine.setAttribute("x1", node.x);
+  tempLine.setAttribute("y1", node.y);
+  tempLine.setAttribute("x2", node.x);
+  tempLine.setAttribute("y2", node.y);
+  tempLine.setAttribute("stroke", "#ffd54f");
+  tempLine.setAttribute("stroke-width", "2");
+  tempLine.setAttribute("stroke-dasharray", "5,5");
+  svg.insertBefore(tempLine, svg.firstChild); // Add to back
+}
+
+// Handle mouse move over SVG
+function handleSvgMouseMove(e) {
+  if (!isInteractiveMode || !dragStartNode || !tempLine) return;
+
+  const svgRect = svg.getBoundingClientRect();
+  const x = e.clientX - svgRect.left;
+  const y = e.clientY - svgRect.top;
+
+  tempLine.setAttribute("x2", x);
+  tempLine.setAttribute("y2", y);
+}
+
+// Handle mouse leave SVG
+function handleSvgMouseLeave(e) {
+  if (tempLine && dragStartNode) {
+    svg.removeChild(tempLine);
+    tempLine = null;
+    dragStartNode = null;
+  }
+}
+
+// Handle mouse up on node
+function handleNodeMouseUp(e, endNode) {
+  if (!isInteractiveMode || !dragStartNode) return;
+
+  // Remove temporary line
+  if (tempLine) {
+    svg.removeChild(tempLine);
+    tempLine = null;
+  }
+
+  // Check if we're dropping on a different node
+  if (endNode.id !== dragStartNode.id) {
+    // Check if edge already exists
+    const existingEdge = edges.find(
+      (edge) =>
+        (edge.u === dragStartNode.id && edge.v === endNode.id) ||
+        (edge.u === endNode.id && edge.v === dragStartNode.id)
+    );
+
+    if (existingEdge) {
+      alert(
+        `Edge already exists between ${dragStartNode.id} and ${endNode.id}!`
+      );
+      stepsDiv.innerText += `❌ Edge ${dragStartNode.id}-${endNode.id} already exists!\n`;
+    } else {
+      // Prompt for weight
+      const weight = prompt(
+        `Enter weight for edge ${dragStartNode.id}-${endNode.id}:`,
+        "5"
+      );
+
+      if (weight !== null && weight.trim() !== "") {
+        const w = parseInt(weight);
+        if (!isNaN(w) && w > 0) {
+          drawEdge(dragStartNode.id, endNode.id, w);
+          stepsDiv.innerText += `✓ Added edge ${dragStartNode.id}-${endNode.id} with weight ${w}\n`;
+          stepsDiv.scrollTop = stepsDiv.scrollHeight;
+        } else {
+          alert("Please enter a valid positive number for the weight!");
+          stepsDiv.innerText += `❌ Invalid weight for edge ${dragStartNode.id}-${endNode.id}\n`;
+        }
+      }
+    }
+  }
+
+  dragStartNode = null;
 }
 
 function generateRandomGraph() {
@@ -152,45 +297,45 @@ function generateRandomGraph() {
   });
 }
 
-function loadUserGraph() {
-  resetGraph();
-  let input = document.getElementById("graphInput").value.trim().split("\n");
-  let nodeSet = new Set();
+// function loadUserGraph() {
+//   resetGraph();
+//   let input = document.getElementById("graphInput").value.trim().split("\n");
+//   let nodeSet = new Set();
 
-  input.forEach((line) => {
-    let [nodesPart, w] = line.split(":");
-    if (!nodesPart || !w) return;
-    let [u, v] = nodesPart.split("-");
-    u = u.trim();
-    v = v.trim();
-    nodeSet.add(u);
-    nodeSet.add(v);
-  });
+//   input.forEach((line) => {
+//     let [nodesPart, w] = line.split(":");
+//     if (!nodesPart || !w) return;
+//     let [u, v] = nodesPart.split("-");
+//     u = u.trim();
+//     v = v.trim();
+//     nodeSet.add(u);
+//     nodeSet.add(v);
+//   });
 
-  let radius = 200,
-    centerX = 250,
-    centerY = 250;
-  let nodeList = Array.from(nodeSet);
-  nodeList.forEach((id, i) => {
-    let angle = (2 * Math.PI * i) / nodeList.length;
-    let x = centerX + radius * Math.cos(angle);
-    let y = centerY + radius * Math.sin(angle);
-    drawNode(id, x, y);
-  });
+//   let radius = 200,
+//     centerX = 250,
+//     centerY = 250;
+//   let nodeList = Array.from(nodeSet);
+//   nodeList.forEach((id, i) => {
+//     let angle = (2 * Math.PI * i) / nodeList.length;
+//     let x = centerX + radius * Math.cos(angle);
+//     let y = centerY + radius * Math.sin(angle);
+//     drawNode(id, x, y);
+//   });
 
-  input.forEach((line) => {
-    let [nodesPart, w] = line.split(":");
-    if (!nodesPart || !w) return;
-    let [u, v] = nodesPart.split("-");
-    drawEdge(u.trim(), v.trim(), parseInt(w.trim()));
-  });
+//   input.forEach((line) => {
+//     let [nodesPart, w] = line.split(":");
+//     if (!nodesPart || !w) return;
+//     let [u, v] = nodesPart.split("-");
+//     drawEdge(u.trim(), v.trim(), parseInt(w.trim()));
+//   });
 
-  // Append all nodes to SVG last (so they appear on top)
-  nodes.forEach((node) => {
-    svg.appendChild(node.circle);
-    svg.appendChild(node.text);
-  });
-}
+//   // Append all nodes to SVG last (so they appear on top)
+//   nodes.forEach((node) => {
+//     svg.appendChild(node.circle);
+//     svg.appendChild(node.text);
+//   });
+// }
 
 function pauseResume() {
   if (!running) return;
@@ -199,6 +344,14 @@ function pauseResume() {
 }
 
 function runAlgorithm() {
+  if (edges.length === 0) {
+    alert("Please create a graph first!");
+    return;
+  }
+
+  // Disable interactive mode when running algorithm
+  isInteractiveMode = false;
+
   resetSteps();
   let algo = document.getElementById("algo").value;
   if (algo === "kruskal") runKruskal();
@@ -239,7 +392,7 @@ function runKruskal() {
     if (paused) return;
     if (i >= sorted.length) {
       let endTime = performance.now();
-      resultDiv.innerText = ` ✅MST Complete (Kruskal)\nFinal Cost: ${mstCost}\nTotal Time: ${(
+      resultDiv.innerText = `MST Complete (Kruskal)\nFinal Cost: ${mstCost}\nTotal Time: ${(
         endTime - startTime
       ).toFixed(2)} ms`;
       running = false;
@@ -303,7 +456,7 @@ function runPrim() {
     if (paused) return;
     if (visited.size === nodes.length) {
       let endTime = performance.now();
-      resultDiv.innerText = `✅ MST Complete (Prim)\nFinal Cost: ${mstCost}\nTotal Time: ${(
+      resultDiv.innerText = `MST Complete (Prim)\nFinal Cost: ${mstCost}\nTotal Time: ${(
         endTime - startTime
       ).toFixed(2)} ms`;
       running = false;
@@ -337,4 +490,3 @@ function runPrim() {
   };
   stepFunc();
 }
-
