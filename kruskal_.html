@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MST Visualizer - Kruskal & Prim's Algorithm</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Modal for weight input -->
+    <div id="weightModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3>Add Edge Weight</h3>
+        <p id="modalEdgeInfo">Enter weight for edge A-B:</p>
+        <input type="number" id="modalWeightInput" class="modal-input" placeholder="Enter weight (e.g., 5)" min="1" />
+        <p class="modal-error" id="modalError">Please enter a valid positive number!</p>
+        <div class="modal-buttons">
+          <button class="modal-btn modal-btn-primary" onclick="confirmWeight()">Add Edge</button>
+          <button class="modal-btn modal-btn-secondary" onclick="cancelWeight()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graph Half -->
+    <div id="graphArea">
+      <h2>Graph Representation</h2>
+      <svg id="graph" width="500" height="500"></svg>
+    </div>
+
+    <!-- Info Half -->
+    <div id="infoArea">
+      <h2>Algorithm Dashboard</h2>
+
+      <h3>Choose the Algorithm</h3>
+      <div class="control-group">
+        <label for="algo">Algorithm:</label>
+        <select id="algo" onchange="toggleSourceInput()">
+          <option value="kruskal">Kruskal's Algorithm</option>
+          <option value="prim">Prim's Algorithm</option>
+        </select>
+
+        <!-- Source vertex input (shown only for Prim) -->
+        <div id="sourceInputDiv" style="display: none">
+          <label for="sourceVertex">Source Vertex:</label>
+          <input type="text" id="sourceVertex" placeholder="e.g. A" />
+        </div>
+      </div>
+
+      <h3>Generate A Random Graph</h3>
+      <div class="button-container">
+        <button onclick="generateRandomGraph()">Generate Graph</button>
+        <div class="input-group">
+          <label>Nodes:</label>
+          <input type="number" id="nodeCount" value="6" min="3" max="10" />
+        </div>
+        <div class="input-group">
+          <label>Density:</label>
+          <select id="density">
+            <option value="sparse">Sparse</option>
+            <option value="medium" selected>Medium</option>
+            <option value="dense">Dense</option>
+          </select>
+        </div>
+      </div>
+
+      <h3>Graph Controls</h3>
+      <div class="button-container">
+        <button onclick="createInteractiveGraph()">Connect Nodes</button>
+        <button onclick="runAlgorithm()">Run Algorithm</button>
+        <button onclick="pauseResume()">Pause/Resume</button>
+        <button onclick="resetGraph()">Reset</button>
+      </div>
+
+      <h3>Steps:</h3>
+      <div id="steps"></div>
+
+      <h3>Final Result:</h3>
+      <p id="result"></p>
+    </div>
+    
+    <script src="script.js"></script>
+  </body>
+</html>
