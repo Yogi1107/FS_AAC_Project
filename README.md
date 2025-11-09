@@ -18,11 +18,17 @@ A beautiful, interactive web-based visualizer for Minimum Spanning Tree (MST) al
 
 ```
 mst-visualizer/
-│
-├── index.html          # Main HTML structure
-├── styles.css          # All styling and layout
-├── script.js           # Algorithm logic and visualization
-└── README.md           # This file
+├── index.html
+├── style.css
+├── main.js
+├── state.js
+├── dom.js
+├── graphDrawing.js
+├── interactions.js
+├── modal.js
+├── graphGeneration.js
+├── algorithms.js
+└── utils.js
 ```
 
 ## Getting Started
