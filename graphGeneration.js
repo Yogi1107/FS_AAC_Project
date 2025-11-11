@@ -96,6 +96,11 @@ export function generateRandomGraph() {
     elements.svg.appendChild(node.circle);
     elements.svg.appendChild(node.text);
   });
+
+  console.log("Nodes:", state.nodes);
+  console.log("Edges:", state.edges);
+
+
 }
 
 export function resetGraph() {
