@@ -1,0 +1,496 @@
+/* debugStyles.css - Styling for data structure visualization */
+
+/* Debug Panel Container */
+#debugPanel {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e0e0e0;
+}
+
+#debugPanel h3 {
+  color: #0277bd;
+  margin-bottom: 15px;
+  font-size: 20px;
+  border-bottom: 3px solid #0277bd;
+  padding-bottom: 10px;
+}
+
+#debugContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.debug-placeholder {
+  text-align: center;
+  color: #999;
+  padding: 30px;
+  font-style: italic;
+}
+
+/* Debug Sections */
+.debug-section {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  border: 2px solid #0277bd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.debug-section h4 {
+  margin: 0 0 15px 0;
+  color: #0277bd;
+  font-size: 16px;
+  border-bottom: 2px solid #90caf9;
+  padding-bottom: 8px;
+}
+
+/* Edge Table */
+.edge-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  table-layout: fixed;
+  border: 2px solid #0277bd;
+}
+
+.edge-table thead {
+  background: #0277bd;
+  color: white;
+}
+
+.edge-table th,
+.edge-table td {
+  padding: 12px 8px;
+  text-align: center;
+  border: 2px solid #90caf9;
+  word-wrap: break-word;
+}
+
+.edge-table th {
+  font-weight: bold;
+  font-size: 14px;
+  border-color: #ffffff;
+}
+
+.edge-table td {
+  font-size: 13px;
+  background: white;
+}
+
+.edge-table tbody tr:hover {
+  background: #e3f2fd;
+}
+
+.edge-table th:nth-child(1),
+.edge-table td:nth-child(1) {
+  width: 10%;
+}
+
+.edge-table th:nth-child(2),
+.edge-table td:nth-child(2) {
+  width: 25%;
+}
+
+.edge-table th:nth-child(3),
+.edge-table td:nth-child(3) {
+  width: 20%;
+}
+
+.edge-table th:nth-child(4),
+.edge-table td:nth-child(4) {
+  width: 25%;
+}
+
+.edge-table th:nth-child(5),
+.edge-table td:nth-child(5) {
+  width: 20%;
+}
+
+/* Status Cells */
+.status-pending {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.status-accepted {
+  color: #66bb6a;
+  font-weight: bold;
+}
+
+.status-rejected {
+  color: #ef5350;
+  font-weight: bold;
+}
+
+/* Row Highlight Animation */
+.row-highlight {
+  animation: rowFlash 1s ease;
+}
+
+@keyframes rowFlash {
+  0%, 100% {
+    background: white;
+  }
+  50% {
+    background: #fff9c4;
+  }
+}
+
+/* Parent Array Table (Union-Find for Kruskal's) */
+.parent-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  table-layout: auto;
+  border: 2px solid #0277bd;
+}
+
+.parent-table thead {
+  background: #0277bd;
+  color: white;
+}
+
+.parent-table th,
+.parent-table td {
+  padding: 12px 10px;
+  text-align: center;
+  border: 2px solid #90caf9;
+  min-width: 50px;
+}
+
+.parent-table th {
+  font-weight: bold;
+  font-size: 14px;
+  border-color: #ffffff;
+}
+
+.parent-table td:first-child {
+  background: #e3f2fd;
+  font-weight: bold;
+  color: #0277bd;
+  white-space: nowrap;
+  border-color: #0277bd;
+}
+
+.parent-cell {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.parent-cell.cell-highlight {
+  background: #66bb6a !important;
+  color: white !important;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(102, 187, 106, 0.5);
+}
+
+/* Visited Set Table (Prim's) */
+.visited-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  table-layout: auto;
+  border: 2px solid #0277bd;
+}
+
+.visited-table thead {
+  background: #0277bd;
+  color: white;
+}
+
+.visited-table th,
+.visited-table td {
+  padding: 12px 10px;
+  text-align: center;
+  border: 2px solid #90caf9;
+  min-width: 50px;
+}
+
+.visited-table th {
+  font-weight: bold;
+  font-size: 14px;
+  border-color: #ffffff;
+}
+
+.visited-table td:first-child {
+  background: #e3f2fd;
+  font-weight: bold;
+  color: #0277bd;
+  white-space: nowrap;
+  border-color: #0277bd;
+}
+
+.visited-cell {
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.visited-no {
+  background: #ffebee;
+  color: #ef5350;
+}
+
+.visited-yes {
+  background: #e8f5e9;
+  color: #66bb6a;
+}
+
+.visited-cell.cell-highlight {
+  animation: cellPulse 1s ease;
+}
+
+@keyframes cellPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(102, 187, 106, 0.6);
+  }
+}
+
+/* Available Edges Queue Table (Prim's) */
+.queue-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  table-layout: fixed;
+  border: 2px solid #0277bd;
+}
+
+.queue-table thead {
+  background: #0277bd;
+  color: white;
+}
+
+.queue-table th,
+.queue-table td {
+  padding: 10px 8px;
+  text-align: center;
+  border: 2px solid #90caf9;
+}
+
+.queue-table th {
+  font-weight: bold;
+  font-size: 14px;
+  border-color: #ffffff;
+}
+
+.queue-table td {
+  background: white;
+}
+
+.queue-table th:nth-child(1),
+.queue-table td:nth-child(1) {
+  width: 20%;
+}
+
+.queue-table th:nth-child(2),
+.queue-table td:nth-child(2) {
+  width: 30%;
+}
+
+.queue-table th:nth-child(3),
+.queue-table td:nth-child(3) {
+  width: 20%;
+}
+
+.queue-table th:nth-child(4),
+.queue-table td:nth-child(4) {
+  width: 30%;
+}
+
+.queue-table tbody tr:hover {
+  background: #e3f2fd;
+}
+
+.queue-next {
+  background: #fff9c4 !important;
+  font-weight: bold;
+}
+
+.queue-next td {
+  border: 2px solid #ff9800 !important;
+  background: #fff9c4 !important;
+}
+
+.queue-empty {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px !important;
+  background: white !important;
+}
+
+/* Cost Tracker */
+.cost-display {
+  background: linear-gradient(135deg, #0277bd 0%, #01579b 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid #01579b;
+}
+
+.cost-value {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+  line-height: 1;
+}
+
+.cost-value.cost-updated {
+  animation: costPulse 0.6s ease;
+}
+
+@keyframes costPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+    color: #ffd54f;
+  }
+}
+
+.cost-label {
+  font-size: 14px;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cost-breakdown {
+  background: white;
+  padding: 15px;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 2px solid #90caf9;
+}
+
+.cost-empty {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 15px;
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+  animation: slideIn 0.3s ease;
+  gap: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.cost-item:last-child {
+  margin-bottom: 0;
+  background: #e3f2fd;
+  border: 2px solid #0277bd;
+}
+
+.cost-edge {
+  color: #0277bd;
+  font-weight: bold;
+  flex: 1;
+  text-align: left;
+}
+
+.cost-weight {
+  color: #66bb6a;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+}
+
+.cost-running {
+  color: #333;
+  font-weight: bold;
+  flex: 1;
+  text-align: right;
+}
+
+/* Scrollbar Styling for Debug Panel */
+#debugContent::-webkit-scrollbar,
+.cost-breakdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+#debugContent::-webkit-scrollbar-track,
+.cost-breakdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+#debugContent::-webkit-scrollbar-thumb,
+.cost-breakdown::-webkit-scrollbar-thumb {
+  background: #90caf9;
+  border-radius: 4px;
+}
+
+#debugContent::-webkit-scrollbar-thumb:hover,
+.cost-breakdown::-webkit-scrollbar-thumb:hover {
+  background: #0277bd;
+}
+
+/* Responsive Design for Debug Panel */
+@media (max-width: 768px) {
+  .parent-table th,
+  .parent-table td,
+  .visited-table th,
+  .visited-table td,
+  .queue-table th,
+  .queue-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+  
+  .cost-value {
+    font-size: 36px;
+  }
+}

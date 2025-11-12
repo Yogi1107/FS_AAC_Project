@@ -3,6 +3,12 @@
 import { toggleSourceInput, pauseResume, runAlgorithm } from './uiControls.js';
 import { createInteractiveGraph, generateRandomGraph, resetGraph } from './graphGeneration.js';
 import { confirmWeight, cancelWeight } from './modal.js';
+import { initializeDebugPanel } from './debugDisplay.js';
+
+// Initialize debug panel on load
+document.addEventListener('DOMContentLoaded', () => {
+  initializeDebugPanel();
+});
 
 // Expose functions to global scope for HTML onclick handlers
 window.toggleSourceInput = toggleSourceInput;

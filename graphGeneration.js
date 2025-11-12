@@ -4,6 +4,7 @@ import { state, resetState } from './state.js';
 import { elements } from './dom.js';
 import { drawNode, drawEdge } from './graphDrawing.js';
 import { handleSvgMouseMove, handleSvgMouseLeave } from './interactions.js';
+import { clearDebugDisplay, initializeDebugPanel } from './debugDisplay.js';
 
 export function createInteractiveGraph() {
   resetGraph();
@@ -96,16 +97,12 @@ export function generateRandomGraph() {
     elements.svg.appendChild(node.circle);
     elements.svg.appendChild(node.text);
   });
-
-  console.log("Nodes:", state.nodes);
-  console.log("Edges:", state.edges);
-
-
 }
 
 export function resetGraph() {
   elements.svg.innerHTML = "";
   elements.stepsDiv.innerText = "";
   elements.resultDiv.innerText = "";
+  clearDebugDisplay();
   resetState();
 }
